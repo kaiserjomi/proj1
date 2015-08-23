@@ -8,7 +8,8 @@
 			<h1>Reparações</h1>
 
 			<form class="nova-reparacao">
-				<input type="text" name="title" placeholder="Adicione nova reparção.">
+				<input type="text" name="titulo" placeholder="Adicione nova reparção.">
+				<input type="number" name="tempo" placeholder="Tempo necessário.">
 				<input type= "submit" value="Adicionar">
 			</form>
 		</header>
@@ -22,5 +23,9 @@
 
 
 <template name="reparacao">
-	<li>{{title}} | {{createdAt}}</li>
+	<li>{{title}} 
+		| {{time}} minutos 
+		| {{createdAt}}
+		<button class="delete">Remover</button>
+	</li>
 </template>
