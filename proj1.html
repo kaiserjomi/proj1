@@ -1,0 +1,26 @@
+<head>
+  <title>proj1</title>
+</head>
+	
+<body>
+	<div class="container">
+		<header>
+			<h1>Reparações</h1>
+
+			<form class="nova-reparacao">
+				<input type="text" name="title" placeholder="Adicione nova reparção.">
+				<input type= "submit" value="Adicionar">
+			</form>
+		</header>
+		<ul>
+			{{#each reparacoes}}
+				{{> reparacao}}
+			{{/each}}
+		</ul>
+	</div>
+</body>
+
+
+<template name="reparacao">
+	<li>{{title}} | {{createdAt}}</li>
+</template>
