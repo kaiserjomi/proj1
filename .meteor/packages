@@ -6,4 +6,7 @@
 
 meteor-platform
 autopublish
-insecure
+cryptoquick:stylus-multi
+accounts-password
+accounts-ui
+accounts-google

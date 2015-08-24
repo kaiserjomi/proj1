@@ -7,23 +7,35 @@
 		<header>
 			<h1>Reparações</h1>
 
+			<label class="hide-finished">
+				<!--checkbox para esconder reparações terminadas-->
+				<input type="checkbox" checked="{{hideFinished}}">
+				Esconder reparações terminadas.
+			</label>
+			<!--Este if vê se alguem está logado e só mostra a form caso isso seja verdade-->
+			{{#if currentUser}}
 			<form class="nova-reparacao">
 				<input type="text" name="titulo" placeholder="Adicione nova reparção.">
 				<input type="number" name="tempo" placeholder="Tempo necessário.">
 				<input type= "submit" value="Adicionar">
 			</form>
+			{{/if}}
 		</header>
 		<ul>
 			{{#each reparacoes}}
 				{{> reparacao}}
 			{{/each}}
 		</ul>
+		Login
+		{{> loginButtons}}
 	</div>
 </body>
 
 
 <template name="reparacao">
-	<li>{{title}} 
+	<li class="{{#if checked}}checked{{/if}}">
+		<input type="checkbox" checked="{{checked}}" class="toggle-checked">
+		<span class="text">{{title}}</span> 
 		| {{time}} minutos 
 		| {{createdAt}}
 		<button class="delete">Remover</button>
