@@ -2,6 +2,9 @@ ReparacoesCol = new Mongo.Collection('reparacoesCol');
 
 
 if (Meteor.isClient) {
+  
+  Meteor.subscribe("reparacoesCol")  ;
+
   Template.body.helpers({
     reparacoes: function()
     {
@@ -24,11 +27,6 @@ if (Meteor.isClient) {
       var titleVar = event.target.titulo.value;
       var timeVar = event.target.tempo.value;
       Meteor.call("addReparacao", titleVar, timeVar);
-      /*ReparacoesCol.insert({
-        title: titleVar,
-        time: timeVar,
-        createdAt: new Date()
-      })*/
     //coloca a form de novo em branco
     event.target.title.value = "";
     //para impedir q faça refresh da pagina
@@ -45,12 +43,12 @@ if (Meteor.isClient) {
     'click .toggle-checked': function() {
       //para colocar as repaçoes já realizadas para o fim da lista
       //a forma como o find funciona coloca no fim os checked
-      ReparacoesCol.update(this._id, {$set: {checked: !this.checked}});
+      Meteor.call("updateReparacao", this._id, !this.checked);
     },
 
     'click .delete': function()
       {
-        ReparacoesCol.remove(this._id);
+        Meteor.call("deleteReparacao",this._id);
       } 
  });
 
@@ -65,6 +63,10 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
   });
+
+  Meteor.publish("reparacoesCol", function(){
+    return ReparacoesCol.find();
+  });
 }
 
 
@@ -74,6 +76,14 @@ Meteor.methods({
         title: titleVar,
         time: timeVar,
         createdAt: new Date()
-      }); 
-  }
+      });
+  },
+
+  updateReparacao:function(id, checked){
+    ReparacoesCol.update(id, {$set: {checked: checked}});
+  },
+
+  deleteReparacao: function(id){
+    ReparacoesCol.remove(id);
+  } 
 });
