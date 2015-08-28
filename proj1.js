@@ -2,7 +2,7 @@ ReparacoesCol = new Mongo.Collection('reparacoesCol');
 
 
 if (Meteor.isClient) {
-  
+
   Meteor.subscribe("reparacoesCol")  ;
 
   Template.body.helpers({
@@ -41,17 +41,29 @@ if (Meteor.isClient) {
 
   Template.reparacao.events({
     'click .toggle-checked': function() {
-      //para colocar as repaçoes já realizadas para o fim da lista
-      //a forma como o find funciona coloca no fim os checked
-      Meteor.call("updateReparacao", this._id, !this.checked);
+      Meteor.call("updateReparacao", this._id, !this.private);
     },
 
     'click .delete': function()
       {
         Meteor.call("deleteReparacao",this._id);
+      },
+
+      'click .toggle-private': function() {
+      //para colocar as repaçoes já realizadas para o fim da lista
+      //a forma como o find funciona coloca no fim os checked
+      Meteor.call("setPrivate", this._id, !this.private);
       } 
+
+
  });
 
+
+Template.reparacao.helpers({
+  isOwner: function(){
+   return this.owner === Meteor.userId();
+  }
+});
      //Para configurar para fazer login por username em vez de email
     Accounts.ui.config({
       passwordSignupFields: "USERNAME_ONLY"
@@ -65,7 +77,14 @@ if (Meteor.isServer) {
   });
 
   Meteor.publish("reparacoesCol", function(){
-    return ReparacoesCol.find();
+    //vai buscar as reparações que 
+    return ReparacoesCol.find({
+      $or: [
+        //mostra as que não são privadas ou que seja o owner
+        { private: {$ne: true} },
+        { owner: this.userId}
+      ]
+    });
   });
 }
 
@@ -75,7 +94,8 @@ Meteor.methods({
    ReparacoesCol.insert({
         title: titleVar,
         time: timeVar,
-        createdAt: new Date()
+        createdAt: new Date(),
+        owner: Meteor.userId()
       });
   },
 
@@ -85,5 +105,16 @@ Meteor.methods({
 
   deleteReparacao: function(id){
     ReparacoesCol.remove(id);
-  } 
+  } ,
+  //fazer set á repaçao como privada
+  setPrivate: function(id, private) {
+    //vai procurar a reparaçao especifica.
+    var rep = ReparacoesCol.findOne(id);
+
+    if(rep.owner !== Meteor.userId()){
+      throw new Meteor.Error('not-authorized');
+    }
+
+    ReparacoesCol.update(id, {$set: {private: private}});
+  }
 });
