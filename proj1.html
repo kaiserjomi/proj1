@@ -17,7 +17,10 @@
 			<form class="nova-reparacao">
 				<input type="text" name="titulo" placeholder="Adicione nova reparção.">
 				<input type="number" name="tempo" placeholder="Tempo necessário.">
+				{{> marcas}}
+				{{> empregados}}
 				<input type= "submit" value="Adicionar">
+
 			</form>
 			{{/if}}
 		</header>
@@ -34,19 +37,99 @@
 
 <template name="reparacao">
 	<li class="{{#if checked}}checked{{/if}}">
-		<input type="checkbox" checked="{{checked}}" class="toggle-checked">
 		{{#if isOwner}}
-			<button class="toggle-private">
+		<input type="checkbox" checked="{{checked}}" class="toggle-checked">
+		<span class="text">{{title}}</span> 
+		| {{time}} minutos | Marca: {{marca}} | Empregado: {{empregado}} 
+		| {{createdAt}}
+
+		<button class="toggle-private">
 				{{#if private}}
-					Private
+					Privado
 				{{else}}
-					Public
+					Publico
 				{{/if}}
 			</button>
 			{{/if}}
-		<span class="text">{{title}}</span> 
-		| {{time}} minutos 
-		| {{createdAt}}
+
+		{{#if isOwner}}
 		<button class="delete">Remover</button>
+		{{/if}}
 	</li>
 </template>
+
+
+<template name="marcas">
+            <select name="repMarca" class="as_sel" onchange="$('select[name=model]').val('')"><option value="" selected="">Marca</option>
+              <option value="Adly">Adly</option>
+              <option value="Aeon">Aeon</option>
+              <option value="Aixam">Aixam</option>
+              <option value="Aprilia">Aprilia</option>
+              <option value="Benelli">Benelli</option>
+              <option value="Beta">Beta</option>
+              <option value="Bimota">Bimota</option>
+              <option value="BMW">BMW</option>
+              <option value="Bombardier">Bombardier</option>
+              <option value="Buell">Buell</option>
+              <option value="Cagiva">Cagiva</option>
+              <option value="Daelim">Daelim</option>
+              <option value="Derbi">Derbi</option>
+              <option value="Ducati">Ducati</option>
+              <option value="GasGas">GasGas</option>
+              <option value="Gilera">Gilera</option>
+              <option value="Harley-Davidson">Harley-Davidson</option>
+              <option value="Honda">Honda</option>
+              <option value="Husaberg">Husaberg</option>
+              <option value="Husqvarna">Husqvarna</option>
+              <option value="Hyosung">Hyosung</option>
+              <option value="Italjet">Italjet</option>
+              <option value="Kawasaki">Kawasaki</option>
+              <option value="Keeway">Keeway</option>
+              <option value="Kreidler">Kreidler</option>
+              <option value="KTM">KTM</option>
+              <option value="Kymco">Kymco</option>
+              <option value="Laverda">Laverda</option>
+              <option value="LML">LML</option>
+              <option value="Malaguti">Malaguti</option>
+              <option value="MBK">MBK</option>
+              <option value="Moto Guzzi">Moto Guzzi</option>
+              <option value="Moto Morini">Moto Morini</option>
+              <option value="MV Agusta">MV Agusta</option>
+              <option value="MZ">MZ</option>
+              <option value="Peugeot">Peugeot</option>
+              <option value="PGO">PGO</option>
+              <option value="Piaggio">Piaggio</option>
+              <option value="Polaris">Polaris</option>
+              <option value="Puch">Puch</option>
+              <option value="Rieju">Rieju</option>
+              <option value="Royal Enfield">Royal Enfield</option>
+              <option value="Sachs">Sachs</option>
+              <option value="Suzuki">Suzuki</option>
+              <option value="Sym">Sym</option>
+              <option value="Triumph">Triumph</option>
+              <option value="Ural">Ural</option>
+              <option value="Vespa">Vespa</option>
+              <option value="Yamaha">Yamaha</option>
+              <option value="Dnepr">Dnepr</option>
+              <option value="AJP">AJP</option>
+              <option value="Casal">Casal</option>
+              <option value="Chang Jiang">Chang Jiang</option>
+              <option value="Famel">Famel</option>
+              <option value="Macal">Macal</option>
+              <option value="Montesa">Montesa</option>
+              <option value="Norton">Norton</option>
+              <option value="Sis Sachs">Sis Sachs</option>
+              <option value="Sanyang">Sanyang</option>
+              <option value="Outra não listada">Outra não listada</option>
+              <option value="Tomos">Tomos</option>
+              <option value="Vectrix">Vectrix</option>
+             </select>
+          </template>
+
+
+<template name="empregados">
+            <select name="repEmpregado" class="as_sel" onchange="$('select[name=nome]').val('')"><option value="" selected="">Empregado</option>
+              <option value="Joao">João</option>
+              <option value="Rui">Rui</option>
+             </select>
+          </template>
